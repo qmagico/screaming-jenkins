@@ -11,11 +11,16 @@ api = API(
 
 aulasdovaca = api.spaces()[0]
 
-space_tool = api.space_tools(space_id=aulasdovaca.id)[0]
+space_tools = api.space_tools(space_id=aulasdovaca.id)
 
-merge_requests = api.merge_requests(space_id=aulasdovaca.id, space_tool_id=space_tool.id)
+for tool in space_tools:
+    if tool.type == 'GitTool':
+        space_tool = tool
+        break
 
-for merge_request in merge_requests:
-    delta = datetime.now() - merge_request.updated_at
-    if delta / 60 / 60 >= 6:
+merge_requests = api.merge_requests(space_id=aulasdovaca.id, space_tool_id=tool.id)
+
+for merge in merge_requests:
+    delta = datetime.now() - merge.updated_at
+    if delta.total_seconds() / 60 / 60 >= 6:
         exit(1)
