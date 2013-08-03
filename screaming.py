@@ -11,7 +11,7 @@ api = API(
 
 aulasdovaca = api.spaces()[0]
 
-space_tool = api.space_tools(aulasdovaca.id)[0]
+space_tool = api.space_tools(space_id=aulasdovaca.id)[0]
 
 merge_requests = api.merge_requests(space_id=aulasdovaca.id, space_tool_id=space_tool.id)
 
